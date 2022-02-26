@@ -1,19 +1,19 @@
-import React from 'react';
+// import React from 'react';
 
-const LinkInput = ({newRedditPage, selectRedditPage, saveNewRedditPage} ) => {
+// const LinkInput = ({getRedditPage} ) => {
 
-    const handleRedditPageInput = (event) => {
-        selectRedditPage(event);
-    };
-    return (
-        <>
-            <h1>This is the link input!</h1>
-            <form onSubmit={saveNewRedditPage}>
-                <input type="url" id="new-link" values={newRedditPage} onChange={handleRedditPageInput} />
-                <input type="submit" value="Add"/>
-            </form>
-        </>
-    );
+//     // const handleRedditPageInput = (event) => {
+//     //     selectRedditPage(event);
+//     // };
+//     return (
+//         <div className="link-input-box">
+//             <h3>This is the link input!</h3>
+//             <form onSubmit={getRedditPage}>
+//                 {/* <input className="link-input" type="text" id="new_link" values={newRedditPage} onChange={handleRedditPageInput} /> */}
+//                 <input className="link-button" type="submit" value="Add"/>
+//             </form>
+//         </div>
+//     );
 
-};
-export default LinkInput;
+// // };
+// export default LinkInput;

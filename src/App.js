@@ -1,5 +1,5 @@
 import './App.css';
-import react from 'react';
+import React from 'react';
 import MainContainer from './containers/MainContainer';
 
 function App() {

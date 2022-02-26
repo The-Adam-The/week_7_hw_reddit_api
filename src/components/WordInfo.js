@@ -1,14 +1,17 @@
 import React from 'react';
 
-const WordInfo = () => {
- 
+const WordInfo = ({redditTest}) => {
+    
+
+
 
 
 return (
 
-    <>
-        <h1>This is the WordInfo Box!</h1>
-    </>
+    <div className="word-info-box">
+        <h2>Word Info Box</h2>
+        <h2> {redditTest}</h2>
+    </div>
 )
 };
 
