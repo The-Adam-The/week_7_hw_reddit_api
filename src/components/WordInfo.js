@@ -16,10 +16,14 @@ return (
         <h2>Word Info Box</h2>
         <table>
             <th>
-                <td>Word</td>
-                <td>Number of Mentions</td>
+                Word
             </th>
-            {wordDataNodes}
+            <th>
+                Number of Mentions
+            </th>
+            <tbody>
+                {wordDataNodes}
+            </tbody>
 
         </table>
         

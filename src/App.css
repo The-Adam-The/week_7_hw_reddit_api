@@ -4,6 +4,14 @@ body {
   margin: 0;
 }
 
+
+
+.title-box {
+  color: black;
+  font-family: monospace;
+  font-size: 2rem;
+}
+
 .variable-info-box {
   width: 500px;
   height: 100px;
@@ -14,7 +22,7 @@ body {
 
 .link-input-box {
   width: 500px;
-  height: 100px;
+  height: 300px;
   background-color: rgb(35, 153, 20);
   margin: 0;
   padding: 30px;
@@ -42,10 +50,25 @@ body {
 
 .word-info-box {
   width: 500px;
-  height: 500px;
-  background-color: purple;
+  height: auto;
+  background-color: rgb(210, 226, 231);
   padding: 30px;
   margin: 0;
+  color: black;
+}
+
+
+table, th, td {
+  border: black 1px solid;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 5px;
+}
+
+.word-count-data {
+  text-align: right;
 }
 
 .graph-info-box {
@@ -55,5 +78,3 @@ body {
   padding: 30px;
   margin: 0;
 }
-
-

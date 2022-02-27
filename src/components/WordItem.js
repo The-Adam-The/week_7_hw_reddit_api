@@ -6,7 +6,7 @@ const WordDataItem = ({wordName, wordCountNumber}) => {
         <> 
         <tr>
             <td>{wordName}</td>
-            <td>{wordCountNumber}</td>
+            <td className="word-count-data">{wordCountNumber}</td>
         </tr>
         </>
     );
