@@ -10,9 +10,7 @@ const MainContainer = () => {
     // const [redditPage, setRedditPage] = useState("www.reddit.com");
     // const [newRedditPage, setNewRedditPage] = useState("")
     const [redditData, setRedditData] = useState("");
-    const [titleList, setTitleList] = useState([]);
-    const [wordList, setWordList] = useState([]);
-
+    const [wordCount, setWordCount] = useState([]);
 
     const fetchRedditPage = () => {
         fetch("/r/worldnews.json")
@@ -23,35 +21,58 @@ const MainContainer = () => {
 
     const handleGetTitle = () => {
         getTitleData();
-    }
-
+    };
     const handleRedditAPI = () => {
         fetchRedditPage();
-    }
+    };
     
+    // Functions courtesy of unique-words modules https://www.npmjs.com/package/unique-words
+    const split = (...args) => [].concat.apply([], args).join(' ').split(/\W+/);
+
+    const wordCounts = (...args) => {
+        return split(...args).reduce((acc, word) => {
+          if (word) acc[word] = (acc[word] || 0) + 1;
+          return acc;
+        }, {});
+      };
+
+    const sortWordcount = (wordCount) => {
+        const wordList = [];
+
+        for (var word in wordCount) {
+            wordList.push([word, wordCount[word]])
+        };
+
+        const filteredWordList = wordList.filter(word =>  word[1] > 1 && word[0].length > 1 && word[0] != "and" && word[0] != "to" && 
+        word[0] != "of" && word[0] != "the" && word[0] != "is" && word[0] != "so" && word[0] != "that" && word[0] !="this" && word[0] != "are" 
+        && word[0] != "as" && word[0] != "by" && word[0] != 'at');
+
+        console.log(filteredWordList)
+
+        filteredWordList.sort(function(a, b) {
+            return a[1] - b[1];
+        });
+
+        filteredWordList.reverse()
+        console.log('wordList', filteredWordList)
+        setWordCount(filteredWordList)
+        return wordList
+      };
+
     const getTitleData = () => {
         const usableData = redditData.data.children
         // console.log(redditData.data.children[1].data.title)
         const titles = []
-      
         for (var i=1; i < redditData.data.children.length; i++) {
             titles.push(redditData.data.children[i].data.title)
         }
-        setTitleList(titles)
-        console.log(titleList)
-
-        const allElements = titleList.join();
-        console.log(allElements)
+        const allElements = titles.join();
         const lowerWords = allElements.toLowerCase()
-        const words = lowerWords.split(" ");
-        setWordList(words);
-        console.log(wordList);
-        // console.log(unique.counts(wordList))
+        const wordCountObject = wordCounts(lowerWords)
+        sortWordcount(wordCountObject)
+        
     };
 
-    // const countWords = () => {
-
-    // }
 
 
 
@@ -82,7 +103,7 @@ const MainContainer = () => {
                 </div>
             </div>
             <div className="bottom-container">
-                <WordInfo/>
+                <WordInfo wordCount={wordCount}/>
                 <GraphInfo/>
             </div>
         </div>
