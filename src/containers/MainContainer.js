@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react';
+import {useState, useEffect } from 'react';
 import WordInfo from '../components/WordInfo'
 import GraphInfo from '../components/GraphInfo'
 import LinkInput from '../components/LinkInput'
@@ -8,20 +8,39 @@ import LinkInput from '../components/LinkInput'
 
 const MainContainer = () => {
 
-    const [redditPage, setRedditPage] = useState("");
-    const [newRedditPage, setNewRedditPage] = useState("")
+
+
+    const [redditPage, setRedditPage] = useState("all");
+    const [newRedditPage, setNewRedditPage] = useState("");
+    const [redditLoaded, setRedditLoaded] = useState(false);
     const [redditData, setRedditData] = useState("");
     const [wordCount, setWordCount] = useState([]);
     const [graphData, setGraphData] = useState([]);
+    
+    
+    useEffect (()=>{
+        fetchRedditPage();
+        
+    },[]);
 
-    const fetchRedditPage = (event) => {
-        event.preventDefault();
-        setRedditPage(newRedditPage)
-        const url_extension = `/r/${newRedditPage}.json`;
+    useEffect (() => {
+        if (!redditLoaded){
+            return 
+        }
+        getTitleData();
+    }, [redditData])
 
-        fetch(url_extension)
+    
+
+    const fetchRedditPage = () => {
+        setRedditLoaded(true);
+        const urlExtension = `/r/${redditPage}.json`;
+
+        fetch(urlExtension)
         .then(results => results.json())
-        .then((data) => setRedditData(data))
+        .then((data) => {
+            setRedditData(data);
+        })
         .catch(err => console.error(err));
         console.log("Reddit JSON obtained")
         
@@ -41,12 +60,13 @@ const MainContainer = () => {
         }, {});
       };
 
-    const sortWordcount = (wordCount) => {
+    const sortWordCount = (wordCount) => {
         const wordList = [];
 
         for (var word in wordCount) {
             wordList.push([word, wordCount[word]])
         };
+        console.log('wordList: ', wordList)
 
         const filteredWordList = wordList.filter(word =>  word[1] > 1 && word[0].length > 1 && word[0] !== "and" && word[0] !== "to" && 
         word[0] !== "of" && word[0] !== "the" && word[0] !== "is" && word[0] !== "so" && word[0] !== "that" && word[0] !== "this" && word[0] !== "are" 
@@ -58,12 +78,14 @@ const MainContainer = () => {
             return a[1] - b[1];
         });
         filteredWordList.reverse()
+        console.log('filteredWordList', filteredWordList)
         console.log("Word list sorted")
         console.log('wordList', filteredWordList)
         setWordCount(filteredWordList)
         const convertedNumberWordList = filteredWordList.map(word =>[word[0], word[1].toString()])
         console.log('convertedNumberWordList', convertedNumberWordList);
-        const newGraphData = [["word", "times used"],...filteredWordList]
+        const newGraphData = [["word", "times used"],...convertedNumberWordList]
+        console.log("new graph data")
         setGraphData(newGraphData)
         console.log('graphData', newGraphData)
 
@@ -79,12 +101,14 @@ const MainContainer = () => {
         const allElements = titles.join();
         const lowerWords = allElements.toLowerCase()
         const wordCountObject = wordCounts(lowerWords)
-        sortWordcount(wordCountObject)
+        sortWordCount(wordCountObject)
+        
         
     };
 
     const selectRedditPage = (event) => {
         setNewRedditPage(event.target.value);
+        setRedditPage(newRedditPage)
     };
 
 

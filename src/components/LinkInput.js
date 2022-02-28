@@ -3,7 +3,10 @@ import React from 'react';
 const LinkInput = ({fetchRedditPage, selectRedditPage, newRedditPage, handleGetTitle} ) => {
 
     const handleRedditPageInput = (event) => {
+        event.preventDefault();
         selectRedditPage(event);
+        fetchRedditPage();
+
     };
     return (
         <div className="link-input-box">
